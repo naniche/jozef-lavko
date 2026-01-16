@@ -1,0 +1,142 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #ffffff;
+    color: #000000;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+}
+
+/* 1. KURZOR PRE CELÝ WEB (v kľude) */
+html, body {
+    cursor: url('../img/cursor-free.svg') 0 0, auto;
+    height: 100%;
+}
+
+/* 2. KURZOR PRE KLIKATEĽNÉ PRVKY (hover) */
+/* Sem pridávame všetky prvky, na ktoré sa dá kliknúť */
+a, 
+button, 
+.clickable, 
+input[type="submit"],
+select {
+    cursor: url('../img/cursor-pointer.svg') 0 0, pointer !important;
+}
+
+/* 3. ŠPECIÁLNY STAV PRI DRŽANÍ (keď reálne stlačíš myš) */
+/* Voliteľné: ak chceš, aby kurzor niečo urobil v momente kliknutia */
+body:active {
+    cursor: url('../img/cursor-pointer.svg') 2 2, pointer;
+}
+
+/* HLAVIČKA */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 50px;
+    z-index: 1001; /* Nad dymom */
+}
+
+.logo img {
+    height: 45px;
+    width: auto;
+    display: block;
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #000;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 2px;
+    transition: color 0.3s;
+}
+
+.nav-item:hover {
+    color: #4ff0b7;
+}
+
+/* LOADER */
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    transition: opacity 0.6s ease;
+}
+
+#count {
+    font-size: 48px;
+    font-weight: 900;
+}
+
+/* OBSAH */
+#main-content {
+    opacity: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.loaded #main-content {
+    opacity: 1;
+}
+
+.flair {
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    mix-blend-mode: difference;
+    
+    /* TU JE OPRAVA: Pridávame plynulosť pre pohyb aj pre zmenu veľkosti */
+    /* transform rieši pohyb, width/height/margin riešia to "skákanie" */
+    transition: transform 0.15s ease-out, 
+                width 0.4s cubic-bezier(0.23, 1, 0.32, 1), 
+                height 0.4s cubic-bezier(0.23, 1, 0.32, 1), 
+                margin 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    
+    margin-left: -30px;
+    margin-top: -30px;
+    will-change: transform, width, height; /* Optimalizácia pre plynulosť */
+}
+
+/* Plynulé zväčšenie pri hoveri */
+.flair--hover {
+    width: 110px;
+    height: 110px;
+    margin-left: -55px; /* Polovica z 110px, aby ostal vycentrovaný */
+    margin-top: -55px;
+}
