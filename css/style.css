@@ -1,142 +1,145 @@
-/* RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+@charset "UTF-8";
+
+/* 1. IMPORT FONTU */
+@import url('https://api.fontshare.com/v2/css?f[]=switzer@100,200,300,400,500,600,700,800,900&display=swap');
+
+/* 2. DEFINÍCIA PREMENNÝCH */
+:root {
+    --zinc-50: #fafafa;
+    --zinc-100: #f4f4f5;
+    --zinc-150: #ececed;
+    --zinc-200: #e4e4e7;
+    --zinc-300: #d4d4d8;
+    --zinc-400: #a1a1aa;
+    --zinc-500: #71717a;
+    --zinc-600: #52525b;
+    --zinc-700: #3f3f46;
+    --zinc-800: #27272a;
+    --zinc-900: #18181b;
+    --zinc-950: #09090b;
 }
+
+/* 3. RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
 
 body {
-    background-color: #ffffff;
-    color: #000000;
-    font-family: 'Inter', sans-serif;
+    background-color: var(--zinc-50);
+    color: var(--zinc-950);
+    font-family: 'Switzer', sans-serif;
     overflow: hidden;
-}
-
-/* 1. KURZOR PRE CELÝ WEB (v kľude) */
-html, body {
-    cursor: url('../img/cursor-free.svg') 0 0, auto;
-    height: 100%;
-}
-
-/* 2. KURZOR PRE KLIKATEĽNÉ PRVKY (hover) */
-/* Sem pridávame všetky prvky, na ktoré sa dá kliknúť */
-a, 
-button, 
-.clickable, 
-input[type="submit"],
-select {
-    cursor: url('../img/cursor-pointer.svg') 0 0, pointer !important;
-}
-
-/* 3. ŠPECIÁLNY STAV PRI DRŽANÍ (keď reálne stlačíš myš) */
-/* Voliteľné: ak chceš, aby kurzor niečo urobil v momente kliknutia */
-body:active {
-    cursor: url('../img/cursor-pointer.svg') 2 2, pointer;
-}
-
-/* HLAVIČKA */
-.main-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 30px 50px;
-    z-index: 1001; /* Nad dymom */
-}
-
-.logo img {
-    height: 45px;
-    width: auto;
-    display: block;
-}
-
-.nav-links {
-    display: flex;
-    gap: 40px;
-}
-
-.nav-item {
-    text-decoration: none;
-    color: #000;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 2px;
-    transition: color 0.3s;
-}
-
-.nav-item:hover {
-    color: #4ff0b7;
-}
-
-/* LOADER */
-#loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    transition: opacity 0.6s ease;
-}
-
-#count {
-    font-size: 48px;
-    font-weight: 900;
-}
-
-/* OBSAH */
-#main-content {
-    opacity: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 1s ease;
     position: relative;
-    z-index: 2;
+
+    /* JEMNÝ GRID (mriežka) */
+    background-image: 
+        linear-gradient(var(--zinc-150) 1px, transparent 1px),
+        linear-gradient(90deg, var(--zinc-150) 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-position: center center;
 }
 
-.loaded #main-content {
-    opacity: 1;
-}
-
-.flair {
-    width: 60px;
-    height: 60px;
+body::after {
+    content: "";
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #ffffff;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 10000;
-    mix-blend-mode: difference;
-    
-    /* TU JE OPRAVA: Pridávame plynulosť pre pohyb aj pre zmenu veľkosti */
-    /* transform rieši pohyb, width/height/margin riešia to "skákanie" */
-    transition: transform 0.15s ease-out, 
-                width 0.4s cubic-bezier(0.23, 1, 0.32, 1), 
-                height 0.4s cubic-bezier(0.23, 1, 0.32, 1), 
-                margin 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    
-    margin-left: -30px;
-    margin-top: -30px;
-    will-change: transform, width, height; /* Optimalizácia pre plynulosť */
+    width: 100%;
+    height: 100%;
+    /* Biela vignette: stred je číry, okraje prechádzajú do sýtej bielej */
+    background: radial-gradient(
+        circle, 
+        transparent 30%, 
+        rgba(255, 255, 255, 0.6) 80%,
+        var(--zinc-100) 100%
+    );
+    pointer-events: none; 
+    z-index: 500; 
 }
 
-/* Plynulé zväčšenie pri hoveri */
-.flair--hover {
-    width: 110px;
-    height: 110px;
-    margin-left: -55px; /* Polovica z 110px, aby ostal vycentrovaný */
-    margin-top: -55px;
+/* Kurzor */
+.cursor {
+    width: 20px; height: 20px;
+    background-color: #fff; border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9999;
+    mix-blend-mode: difference;
+}
+
+/* Navigácia */
+.main-nav {
+    position: fixed; top: 0; left: 0; width: 100%;
+    padding: 40px 60px; display: flex; justify-content: space-between;
+    align-items: center; z-index: 1000;
+}
+
+.logo { 
+    font-weight: 700; text-decoration: none; color: var(--zinc-950); 
+    font-size: 24px; text-transform: uppercase; line-height: 1;
+}
+
+.nav-right { display: flex; gap: 40px; align-items: center; }
+.nav-right a { text-decoration: none; font-size: 14px; color: var(--zinc-800); text-transform: uppercase; font-weight: 500; }
+.nav-right a.nav-btn {
+    background-color: var(--zinc-950); color: var(--zinc-50) !important;
+    padding: 12px 24px; border-radius: 50px; font-weight: 650; font-size: 18px;  text-transform: uppercase;
+}
+
+/* Scéna */
+.parallax-scene {
+    width: 100vw; height: 100vh;
+    display: flex; justify-content: center; align-items: center;
+    perspective: 1200px;
+}
+
+/* iPhone Glass Karta */
+.hero-card {
+    background: rgba(255, 255, 255, 0.01);
+    width: 70%; height: 60%;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(25px) saturate(180%) contrast(95%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border-radius: 40px;
+    position: relative; display: flex; justify-content: center; align-items: center;
+    overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.4);
+    opacity: 0; transform: scale(0.9);
+    z-index: 600;
+}
+
+/* Animovaný Gradient */
+.glass-blob {
+    position: absolute; top: 50%; left: 50%;
+    width: 150%; height: 150%;
+    background: radial-gradient(circle, #ffffff 0%, #00f2ff 25%, #ff00d4 50%, #7000ff 75%, #ffffff 100%);
+    background-size: 200% 200%;
+    filter: blur(35px); opacity: 0.85; z-index: 1;
+    animation: blobMorph 12s linear infinite alternate, gradientShift 8s ease infinite;
+}
+
+.card-tag {
+    position: absolute; top: 35px; left: 45px;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em;
+    color: var(--zinc-600); z-index: 10; opacity: 0;
+}
+
+.hero-content { text-align: center; z-index: 10; pointer-events: none; }
+.main-title { overflow: hidden; margin-bottom: 5px; }
+
+/* Príprava textu na GSAP výsuv */
+.text-large, .text-small {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+}
+
+.text-large { font-size: clamp(2rem, 8vw, 100px); font-weight: 400; letter-spacing: -0.04em; }
+.text-small { font-size: clamp(1rem, 3vw, 30px); font-weight: 300; }
+
+/* Animácie */
+@keyframes blobMorph {
+    0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translate(-50%, -50%) rotate(0deg); }
+    100% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 60%; transform: translate(-50%, -50%) rotate(90deg); }
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }

@@ -1,75 +1,87 @@
-// Pockáme na nacítanie celého HTML
-document.addEventListener("DOMContentLoaded", () => {
-    
-    // --- 1. LOADER LOGIKA ---
-    const countElement = document.getElementById('count');
-    const loader = document.getElementById('loader');
-    let currentCount = 0;
+// VÃ½ber elementov
+const scene = document.querySelector(".parallax-scene");
+const card = document.querySelector(".hero-card");
+const content = document.querySelector(".hero-content");
+const cursor = document.querySelector(".cursor");
+const blob = document.querySelector(".glass-blob");
+const tag = document.querySelector(".card-tag");
+const titles = document.querySelectorAll(".text-small, .text-large");
 
-    if (loader) {
-        const interval = setInterval(() => {
-            currentCount++;
-            if (countElement) countElement.innerText = currentCount;
-            
-            if (currentCount >= 100) {
-                clearInterval(interval);
-                loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    document.body.classList.add('loaded');
-                    document.body.style.overflow = 'auto';
-                }, 600);
-            }
-        }, 15);
-    }
+// 1. ÃšVODNÃ ANIMÃCIA (SpustÃ­ sa raz pri naÄÃ­tanÃ­)
+const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
-    // --- 2. ZMENA TEXTU V TABE (Ked odídeš z webu) ---
-    const originalTitle = document.title;
-    window.addEventListener("blur", () => { document.title = "Hey! Come Back! \u{1F440}"; });
-    window.addEventListener("focus", () => { document.title = originalTitle; });
+tl.to(card, { 
+    opacity: 1, 
+    scale: 1, 
+    duration: 1.8, 
+    delay: 0.5 
+})
+.to(tag, { 
+    opacity: 1, 
+    duration: 1 
+}, "-=1")
+.to(titles, { 
+    opacity: 1, 
+    y: 0, 
+    duration: 1.5, 
+    stagger: 0.2 
+}, "-=1.2");
 
-    // --- 3. FLAIR KURZOR (Pohyb a Smooth Hover) ---
-    const flair = document.querySelector('.flair');
-
-    if (flair) {
-        window.addEventListener("mousemove", (e) => {
-            // Používame requestAnimationFrame pre maximálnu plynulost
-            window.requestAnimationFrame(() => {
-                flair.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-            });
-        });
-
-        // Hladáme všetky prvky, ktoré majú spustit zväcšenie
-        const items = document.querySelectorAll('a, button, .nav-item, .logo img');
-        items.forEach(item => {
-            item.addEventListener('mouseenter', () => flair.classList.add('flair--hover'));
-            item.addEventListener('mouseleave', () => flair.classList.remove('flair--hover'));
-        });
-    }
+// 2. POHYB KURZORA
+window.addEventListener("mousemove", (e) => {
+    gsap.to(cursor, { 
+        x: e.clientX, 
+        y: e.clientY, 
+        xPercent: -50, 
+        yPercent: -50, 
+        duration: 0.5,
+        ease: "power2.out"
+    });
 });
 
-// --- 4. FLUID ENGINE (Nacítanie knižnice dymu) ---
-const fluidScript = document.createElement('script');
-fluidScript.src = "https://webgl-fluid-simulation.netlify.app/scripts/script.js";
-document.head.appendChild(fluidScript);
+// --- DYNAMIC TAB TITLE ---
+let originalTitle = document.title;
 
-fluidScript.onload = () => {
-    window.config = {
-        SIM_RESOLUTION: 128,
-        DYE_RESOLUTION: 1024,
-        DENSITY_DISSIPATION: 3.0, 
-        VELOCITY_DISSIPATION: 1.0,
-        PRESSURE: 0.8,
-        CURL: 30,
-        SPLAT_RADIUS: 0.25,
-        SHADING: true,
-        COLORFUL: false, 
-        PAUSED: false,
-        BACK_COLOR: { r: 255, g: 255, b: 255 },
-        TRANSPARENT: true,
-    };
+window.addEventListener("blur", () => {
+    document.title = "Hey! Come back! ðŸ‘€";
+});
 
-    window.updatePointerColor = () => {
-        return { r: 0.31, g: 0.94, b: 0.71 }; // Mentolová
-    };
-};
+window.addEventListener("focus", () => {
+    document.title = originalTitle;
+});
+
+// 3. PARALLAX EFEKT (NÃ¡klon karty a pohyb blobu)
+const cardRX = gsap.quickTo(card, "rotationX", { duration: 0.8, ease: "power3" });
+const cardRY = gsap.quickTo(card, "rotationY", { duration: 0.8, ease: "power3" });
+const blobX = gsap.quickTo(blob, "x", { duration: 1.5, ease: "power2.out" });
+const blobY = gsap.quickTo(blob, "y", { duration: 1.5, ease: "power2.out" });
+
+scene.addEventListener("mousemove", (e) => {
+    const { width, height, left, top } = scene.getBoundingClientRect();
+    const mouseX = e.clientX - left;
+    const mouseY = e.clientY - top;
+
+    const normX = (mouseX / width - 0.5);
+    const normY = (mouseY / height - 0.5);
+
+    cardRX(normY * -15); // NÃ¡klon hore/dole
+    cardRY(normX * 15);  // NÃ¡klon vÄ¾avo/vpravo
+    
+    // Blob sa hÃ½be opaÄne pre hÄºbkovÃ½ efekt
+    blobX(normX * -80);
+    blobY(normY * -80);
+});
+
+// Reset pri odchode myÅ¡i zo scÃ©ny
+scene.addEventListener("mouseleave", () => {
+    cardRX(0);
+    cardRY(0);
+    blobX(0);
+    blobY(0);
+});
+
+// Hover efekt na menu linky
+document.querySelectorAll("a").forEach(link => {
+    link.addEventListener("mouseenter", () => gsap.to(cursor, { scale: 3.5, duration: 0.3 }));
+    link.addEventListener("mouseleave", () => gsap.to(cursor, { scale: 1, duration: 0.3 }));
+});
