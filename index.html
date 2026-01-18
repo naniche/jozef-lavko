@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sk">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,36 +7,49 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
     <div class="cursor"></div>
-    
+
     <nav class="main-nav">
-        <div class="nav-left">
-            <a href="index.html" class="logo">JOZEF<br>LAVKO</a>
-        </div>
+        <a href="../index.html" class="logo">josko<br>lavko</a>
         <div class="nav-right">
-            <a href="index.html">Home</a>
-            <a href="work.html">Work</a>
-            <a href="about.html">About</a>
-            <a href="contact.html" class="nav-btn">Get in touch</a>
+            <a href="index.html">work</a>
+            <a href="pages/about.html">about</a>
+            <a href="#lab">the lab</a>
+            <a href="mailto:hello@joskolavko.com" class="nav-btn">get in touch</a>
         </div>
     </nav>
-    
-    <main class="parallax-scene">
-        <div class="hero-card">
-            <div class="glass-blob"></div>
 
-            <div class="card-tag">Based in Europe, Slovakia</div>
-
-            <div class="hero-content">
-                <h1 class="main-title">
-                    <span class="text-small">Hi! I’m Joseph</span>
-                </h1>
-                <h1 class="main-title">
-                    <span class="text-large">Graphic Designer.</span>
-                </h1>
+    <main>
+        
+        <section id="about" class="about-section">
+            <div class="about-container">
+                <p class="about-text">
+                    Jozef Lavko is a multidisciplinary designer. He has a weakness for <strong>brutalist typography</strong>, <strong>minimalist layouts</strong>, and <strong>well-crafted visual identities</strong>. Currently exploring the intersection of art and digital design from <strong>Slovakia, Europe</strong>.
+                </p>
             </div>
-        </div>
+        </section>
+        
+
+
+
+        <section id="work" class="projects-section">
+            <div class="projects-header">
+                <span>Selected Projects</span>
+            </div>
+            
+            <div class="projects-list">
+                <div class="project-item">
+                    <div class="project-meta">01</div>
+                    <h2 class="project-title">Project Name</h2>
+                    <div class="project-category">Visual Identity</div>
+                </div>
+                <div class="project-item">
+                    <div class="project-meta">02</div>
+                    <h2 class="project-title">Design Concept</h2>
+                    <div class="project-category">Editorial Design</div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>

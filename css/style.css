@@ -1,145 +1,579 @@
 @charset "UTF-8";
 
-/* 1. IMPORT FONTU */
 @import url('https://api.fontshare.com/v2/css?f[]=switzer@100,200,300,400,500,600,700,800,900&display=swap');
 
-/* 2. DEFINÍCIA PREMENNÝCH */
+
+
 :root {
+
     --zinc-50: #fafafa;
+
     --zinc-100: #f4f4f5;
-    --zinc-150: #ececed;
+    --zinc-150: #ececec;
     --zinc-200: #e4e4e7;
-    --zinc-300: #d4d4d8;
+
+    --zinc-250: #d4d4d8;
+
     --zinc-400: #a1a1aa;
+
     --zinc-500: #71717a;
+
     --zinc-600: #52525b;
+
     --zinc-700: #3f3f46;
+
     --zinc-800: #27272a;
-    --zinc-900: #18181b;
+
     --zinc-950: #09090b;
+
 }
 
-/* 3. RESET */
+
+
 * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
 
+
+
 body {
+
     background-color: var(--zinc-50);
+
     color: var(--zinc-950);
+
     font-family: 'Switzer', sans-serif;
-    overflow: hidden;
-    position: relative;
 
-    /* JEMNÝ GRID (mriežka) */
-    background-image: 
-        linear-gradient(var(--zinc-150) 1px, transparent 1px),
-        linear-gradient(90deg, var(--zinc-150) 1px, transparent 1px);
-    background-size: 60px 60px;
-    background-position: center center;
+    overflow-x: hidden;
+
 }
 
-body::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Biela vignette: stred je číry, okraje prechádzajú do sýtej bielej */
-    background: radial-gradient(
-        circle, 
-        transparent 30%, 
-        rgba(255, 255, 255, 0.6) 80%,
-        var(--zinc-100) 100%
-    );
-    pointer-events: none; 
-    z-index: 500; 
-}
 
-/* Kurzor */
+
+/* Kurzór */
+
 .cursor {
-    width: 20px; height: 20px;
-    background-color: #fff; border-radius: 50%;
-    position: fixed; pointer-events: none; z-index: 9999;
-    mix-blend-mode: difference;
+
+    width: 20px; height: 20px; background-color: #fff; border-radius: 50%;
+
+    position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: difference;
+
 }
 
-/* Navigácia */
+
+
+/* NAV */
+
 .main-nav {
-    position: fixed; top: 0; left: 0; width: 100%;
-    padding: 40px 60px; display: flex; justify-content: space-between;
-    align-items: center; z-index: 1000;
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    padding: 40px 60px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    z-index: 1000;
+
+    mix-blend-mode: difference;
+
 }
+
+
+
+.logo, .nav-right a { 
+
+    color: #fff; 
+
+    text-decoration: none; 
+
+    text-transform: none; 
+
+}
+
+
 
 .logo { 
-    font-weight: 700; text-decoration: none; color: var(--zinc-950); 
-    font-size: 24px; text-transform: uppercase; line-height: 1;
+
+    font-size: 30px; 
+
+    line-height: 1.1;
+
+    letter-spacing: -0.05em;
+
+    font-weight: 500;
+
 }
 
-.nav-right { display: flex; gap: 40px; align-items: center; }
-.nav-right a { text-decoration: none; font-size: 14px; color: var(--zinc-800); text-transform: uppercase; font-weight: 500; }
-.nav-right a.nav-btn {
-    background-color: var(--zinc-950); color: var(--zinc-50) !important;
-    padding: 12px 24px; border-radius: 50px; font-weight: 650; font-size: 18px;  text-transform: uppercase;
+
+
+.nav-right { 
+
+    display: flex; 
+
+    gap: 50px; 
+
+    align-items: center;
+
 }
 
-/* Scéna */
-.parallax-scene {
-    width: 100vw; height: 100vh;
-    display: flex; justify-content: center; align-items: center;
-    perspective: 1200px;
+
+
+.nav-right a { 
+
+    font-size: 16px;
+
+    font-weight: 500;
+
 }
 
-/* iPhone Glass Karta */
-.hero-card {
-    background: rgba(255, 255, 255, 0.01);
-    width: 70%; height: 60%;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(25px) saturate(180%) contrast(95%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
-    border-radius: 40px;
-    position: relative; display: flex; justify-content: center; align-items: center;
-    overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.4);
-    opacity: 0; transform: scale(0.9);
-    z-index: 600;
+
+
+.nav-btn {
+
+    background-color: #fff;
+
+    color: #000 !important;
+
+    padding: 10px 24px;
+
+    border-radius: 0px;
+
+    font-weight: 900;
+
+    font-size: 16px;
+
+    text-transform: lowercase;
+
+    transition: all 0.3s ease;
+
 }
 
-/* Animovaný Gradient */
-.glass-blob {
-    position: absolute; top: 50%; left: 50%;
-    width: 150%; height: 150%;
-    background: radial-gradient(circle, #ffffff 0%, #00f2ff 25%, #ff00d4 50%, #7000ff 75%, #ffffff 100%);
-    background-size: 200% 200%;
-    filter: blur(35px); opacity: 0.85; z-index: 1;
-    animation: blobMorph 12s linear infinite alternate, gradientShift 8s ease infinite;
+
+
+/* HERO */
+
+.hero {
+
+    height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 60px;
+
 }
 
-.card-tag {
-    position: absolute; top: 35px; left: 45px;
-    font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em;
-    color: var(--zinc-600); z-index: 10; opacity: 0;
+.hero-title {
+
+    font-size: clamp(4rem, 15vw, 220px); font-weight: 900; line-height: 0.8;
+
+    letter-spacing: -0.05em; text-transform: uppercase; width: 100%;
+
 }
 
-.hero-content { text-align: center; z-index: 10; pointer-events: none; }
-.main-title { overflow: hidden; margin-bottom: 5px; }
+.line { display: block; }
 
-/* Príprava textu na GSAP výsuv */
-.text-large, .text-small {
-    display: inline-block;
-    transform: translateY(110%);
-    opacity: 0;
+.line-right { display: block; text-align: right; }
+
+
+
+.hero-info {
+
+    display: flex; justify-content: space-between; margin-top: 40px;
+
+    text-transform: uppercase; font-size: 12px; letter-spacing: 0.1em; 
+
+    color: var(--zinc-500); /* Použitá stredná šedá */
+
 }
 
-.text-large { font-size: clamp(2rem, 8vw, 100px); font-weight: 400; letter-spacing: -0.04em; }
-.text-small { font-size: clamp(1rem, 3vw, 30px); font-weight: 300; }
 
-/* Animácie */
-@keyframes blobMorph {
-    0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translate(-50%, -50%) rotate(0deg); }
-    100% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 60%; transform: translate(-50%, -50%) rotate(90deg); }
+
+/* PROJECTS LIST */
+
+.projects-section { 
+
+    padding: 100px 60px; 
+
+    border-top: 1px solid var(--zinc-250); /* Použitá nová 250 farba */
+
 }
 
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+
+
+.projects-header {
+
+    text-transform: uppercase; 
+
+    font-size: 12px; 
+
+    color: var(--zinc-400); 
+
+    margin-bottom: 60px;
+
+}
+
+
+
+.project-item {
+
+    display: flex; 
+
+    align-items: center; 
+
+    padding: 40px 0;
+
+    border-bottom: 1px solid var(--zinc-200); 
+
+    transition: all 0.4s ease;
+
+}
+
+
+
+.project-meta { 
+
+    width: 100px; 
+
+    font-size: 14px; 
+
+    color: var(--zinc-400); 
+
+}
+
+
+
+.project-title {
+
+    font-size: clamp(2rem, 6vw, 80px); 
+
+    font-weight: 500; 
+
+    text-transform: uppercase;
+
+    flex-grow: 1; 
+
+    transition: transform 0.4s ease;
+
+}
+
+
+
+.project-category { 
+
+    font-size: 14px; 
+
+    text-transform: uppercase; 
+
+    color: var(--zinc-700); /* Použitá nová 700 farba pre lepšiu čitateľnosť */
+
+}
+
+
+
+/* Hover efekty */
+
+.project-item:hover { color: var(--zinc-500); }
+
+.project-item:hover .project-title { transform: translateX(30px); color: var(--zinc-950); }
+
+
+
+
+
+/* MEDIA QUERIES pre mobil a tablet */
+
+@media (max-width: 1024px) {
+
+    .main-nav, .hero, .projects-section {
+
+        padding: 30px 30px; /* Zmenšené bočné paddingy */
+
+    }
+
+    .nav-right { gap: 20px; }
+
+}
+
+
+
+@media (max-width: 768px) {
+
+    /* Skryjeme kurzor na mobiloch */
+
+    .cursor { display: none; }
+
+    * { cursor: auto; }
+
+
+
+    .main-nav { 
+
+        padding: 20px;
+
+        align-items: center; 
+
+    }
+
+    
+
+    /* Skryjeme menej dôležité linky, aby sa menu zmestilo */
+
+    .nav-right a:not(.nav-btn) { display: none; }
+
+
+
+    .hero-title { line-height: 1; }
+
+    .hero-info { 
+
+        flex-direction: column; 
+
+        gap: 10px; 
+
+        font-size: 10px; 
+
+    }
+
+
+
+    .project-item { padding: 25px 0; }
+
+    .project-meta { width: 50px; }
+
+    .project-category { display: none; } /* Na mobile skryjeme kategóriu pre čistotu */
+
+}
+
+
+
+.about-section {
+
+    padding: 160px 60px;
+
+    background-color: var(--zinc-150);
+
+    border-top: 1px solid var(--zinc-200);
+
+}
+
+
+
+.about-container {
+
+    max-width: 1100px;
+
+}
+
+
+
+.about-text {
+
+    font-size: clamp(2rem, 4.5vw, 56px);
+
+    line-height: 1.1;
+
+    font-weight: 400;
+
+    color: var(--zinc-950);
+
+    letter-spacing: -0.03em;
+
+    text-transform: none; /* Necháme malé aj veľké písmená pre čitateľnosť */
+
+}
+
+
+
+/* Zvýraznenie kľúčových slov v štýle Katrina */
+
+.about-text strong {
+
+    font-weight: 500;
+
+    color: var(--zinc-800);
+
+}
+
+
+
+.about-footer {
+
+    margin-top: 80px;
+
+}
+
+
+
+.about-mail {
+
+    font-size: 20px;
+
+    color: var(--zinc-950);
+
+    text-decoration: none;
+
+    padding-bottom: 4px;
+
+    border-bottom: 1px solid var(--zinc-950);
+
+    transition: opacity 0.3s ease;
+
+}
+
+
+
+.about-mail:hover {
+
+    opacity: 0.6;
+
+}
+
+
+
+/* Responzivita */
+
+@media (max-width: 768px) {
+
+    .about-section { padding: 80px 20px; }
+
+    .about-text { font-size: 28px; line-height: 1.2; }
+
+}
+
+/* --- ABOUT PAGE SPECIFIC --- */
+.about-page {
+    padding-top: 150px; /* Priestor pre fixnú nav */
+    background-color: var(--zinc-50);
+}
+
+.about-intro {
+    padding: 100px 60px;
+}
+
+.intro-title {
+    font-size: clamp(2.5rem, 6vw, 100px);
+    line-height: 0.95;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    margin-bottom: 80px;
+    text-transform: uppercase;
+}
+
+.intro-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 100px;
+    max-width: 1200px;
+}
+
+.intro-left p, .intro-right p {
+    font-size: clamp(1.2rem, 2vw, 24px);
+    line-height: 1.4;
+    color: var(--zinc-800);
+    margin-bottom: 30px;
+}
+
+/* Details Section */
+.about-details {
+    padding: 100px 60px;
+    background-color: var(--zinc-150); /* Používame tvoj Zinc 150 */
+    border-top: 1px solid var(--zinc-200);
+    border-bottom: 1px solid var(--zinc-200);
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 60px;
+}
+
+.details-column h3 {
+    text-transform: uppercase;
+    font-size: 14px;
+    color: var(--zinc-400);
+    margin-bottom: 30px;
+    letter-spacing: 0.1em;
+}
+
+.details-column ul { list-style: none; }
+.details-column li {
+    font-size: clamp(1.5rem, 3vw, 40px);
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.clients-list {
+    font-size: clamp(1.1rem, 1.5vw, 20px);
+    line-height: 1.6;
+    color: var(--zinc-700);
+}
+
+/* Contact Section */
+.about-contact {
+    padding: 160px 60px;
+    max-width: 900px;
+}
+
+.contact-header h2 {
+    font-size: clamp(3rem, 8vw, 120px);
+    font-weight: 900;
+    margin-bottom: 20px;
+}
+
+.contact-form {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom: 1px solid var(--zinc-200);
+    padding-bottom: 10px;
+}
+
+.form-group label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--zinc-400);
+}
+
+.form-group input, .form-group textarea {
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: 20px;
+    color: var(--zinc-950);
+    outline: none;
+}
+
+.submit-btn {
+    align-self: flex-start;
+    padding: 20px 50px;
+    background-color: var(--zinc-950);
+    color: #fff;
+    border: none;
+    font-weight: 900;
+    text-transform: uppercase;
+    cursor: none;
+    transition: background 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: var(--zinc-800);
+}
+
+/* Responzivita */
+@media (max-width: 768px) {
+    .about-intro, .about-details, .about-contact { padding: 60px 20px; }
+    .intro-grid, .details-grid { grid-template-columns: 1fr; gap: 40px; }
+    .intro-title { font-size: 50px; }
 }
